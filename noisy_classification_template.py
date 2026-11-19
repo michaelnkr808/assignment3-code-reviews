@@ -66,6 +66,8 @@ def repair_labels_knn(train_features, noisy_labels, neighbors):
     _, idx = nn.kneighbors(train_features)
     n = len(noisy_labels)
     neighbor_idx = np.empty((n, neighbors), dtype=int)
+    # Loop instead of idx[:, 1:] because duplicate points can put a different
+    # row at position 0, so the point itself is filtered out by index.
     for i in range(n):
         others = idx[i][idx[i] != i][:neighbors]  # exclude self robustly
         neighbor_idx[i] = others

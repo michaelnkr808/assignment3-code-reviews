@@ -6,6 +6,8 @@ Implement the two update functions from scratch, then complete the experiment.
 import argparse
 from pathlib import Path
 
+import numpy as np
+
 K_VALUES = (2, 3, 4, 6, 10)
 
 
@@ -19,7 +21,6 @@ def update_assignments(data, centroids):
     """
     # Tie rule: np.argmin returns the first minimum, so a point equidistant
     # from several centroids goes to the one with the smallest index.
-    import numpy as np
     data = np.asarray(data, dtype=float)
     centroids = np.asarray(centroids, dtype=float)
     sq_dists = ((data[:, None, :] - centroids[None, :, :]) ** 2).sum(axis=2)
@@ -35,7 +36,6 @@ def update_centroids(data, centroids, assignments):
     # Empty-cluster policy: a cluster with no assigned points keeps its
     # previous centroid. (With duplicate initial centroids, the tie rule
     # sends all points to the lower index, so the duplicate stays empty.)
-    import numpy as np
     data = np.asarray(data, dtype=float)
     new_centroids = np.array(centroids, dtype=float, copy=True)
     for j in range(new_centroids.shape[0]):
@@ -78,7 +78,6 @@ def run_experiments(output_dir, seed=0, max_iterations=100):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    import numpy as np
 
     data, true_labels = make_toy_data()
     # One generator shared across k values, in the order of K_VALUES.
